@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
+    public FloatingJoystick moveJoystick;
+
     private Rigidbody2D _rigibody;
     private Vector2 _direction = Vector2.down;
     public float speed = 5f;
-
+    /*
     public KeyCode inputUp = KeyCode.W;
     public KeyCode inputDown = KeyCode.S;
     public KeyCode inputLeft = KeyCode.A;
     public KeyCode inputRight = KeyCode.D;
-
+    */
     public AnimatedSpriteRenderer spriteRendererUp;
     public AnimatedSpriteRenderer spriteRendererDown;
     public AnimatedSpriteRenderer spriteRendererLeft;
@@ -29,13 +31,18 @@ public class MovementController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(inputUp))
+        _direction = moveJoystick.Direction;
+
+        int xDirection = Mathf.RoundToInt(_direction.x);
+        int yDirection = Mathf.RoundToInt(_direction.y);
+
+        if (xDirection == 0 && yDirection == 1)
             SetDirection(Vector2.up, spriteRendererUp);
-        else if (Input.GetKey(inputDown))
+        else if (xDirection == 0 && yDirection == -1)
             SetDirection(Vector2.down, spriteRendererDown);
-        else if (Input.GetKey(inputLeft))
+        else if (xDirection == -1 && yDirection == 0)
             SetDirection(Vector2.left, spriteRendererLeft);
-        else if (Input.GetKey(inputRight))
+        else if (xDirection == 1 && yDirection == 0)
             SetDirection(Vector2.right, spriteRendererRight);
         else
             SetDirection(Vector2.zero, activeSpriteRenderer);
