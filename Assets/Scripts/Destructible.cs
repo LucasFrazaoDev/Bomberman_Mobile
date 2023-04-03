@@ -7,7 +7,7 @@ public class Destructible : MonoBehaviour
     public float destructionTime = 1f;
 
     [Range(0f, 1f)]
-    public float itemSpawnChance = 0.2f;
+    public float itemSpawnChance = 0.7f;
     public GameObject[] spawnableItens = new GameObject[3];
 
     private void Start()

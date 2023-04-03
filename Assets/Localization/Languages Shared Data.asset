@@ -19,6 +19,18 @@ MonoBehaviour:
     m_Key: "L\xEDngua"
     m_Metadata:
       m_Items: []
+  - m_Id: 2738128408576
+    m_Key: Som
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4690325262336
+    m_Key: Iniciar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5311522656256
+    m_Key: Sair
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

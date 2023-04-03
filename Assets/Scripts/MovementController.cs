@@ -9,12 +9,7 @@ public class MovementController : MonoBehaviour
     private Rigidbody2D _rigibody;
     private Vector2 _direction = Vector2.down;
     public float speed = 5f;
-    /*
-    public KeyCode inputUp = KeyCode.W;
-    public KeyCode inputDown = KeyCode.S;
-    public KeyCode inputLeft = KeyCode.A;
-    public KeyCode inputRight = KeyCode.D;
-    */
+    
     public AnimatedSpriteRenderer spriteRendererUp;
     public AnimatedSpriteRenderer spriteRendererDown;
     public AnimatedSpriteRenderer spriteRendererLeft;
