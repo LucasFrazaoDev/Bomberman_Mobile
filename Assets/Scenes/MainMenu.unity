@@ -2221,6 +2221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _panelOptions: {fileID: 1283237243}
+  _crossfadeImage: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!4 &1798533715
 Transform:
   m_ObjectHideFlags: 0

@@ -11,6 +11,10 @@ public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject _panelOptions;
 
+    [Header("Crossfade Effect")]
+    [SerializeField] private GameObject _crossfadeImage;
+    [SerializeField] private Animator _animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +23,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene(1);
+        StartCoroutine(LoadLevel(1));
     }
 
     public void QuitGame()
@@ -38,5 +42,17 @@ public class MainMenuManager : MonoBehaviour
     public void ClosePanelOptions()
     {
         _panelOptions.SetActive(false);
+    }
+
+    private IEnumerator LoadLevel(int levelIndex)
+    {
+        _crossfadeImage.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        SceneManager.LoadScene(levelIndex);
+        _animator.SetTrigger("Crossfade");
+
+        yield return new WaitForSeconds(1f);
     }
 }
