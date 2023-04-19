@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class MovementController : MonoBehaviour
+public class AIMovementController : MonoBehaviour
 {
-    [Header("Joystick controller")]
-    public FloatingJoystick moveJoystick;
-
-    private Rigidbody2D _rigibody;
     private Vector2 _direction = Vector2.down;
-    public float speed = 5f;
 
     [Header("Sprites Scripts")]
     public AnimatedSpriteRenderer spriteRendererUp;
@@ -20,37 +16,35 @@ public class MovementController : MonoBehaviour
 
     private AnimatedSpriteRenderer activeSpriteRenderer;
 
+    [Header("Navmesh Agent")]
+    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private float _speed = 5f;
+
     private void Awake()
     {
-        _rigibody = GetComponent<Rigidbody2D>();
+        _agent = GetComponent<NavMeshAgent>();
         activeSpriteRenderer = spriteRendererDown;
     }
 
     private void Update()
     {
-        _direction = moveJoystick.Direction;
+        if (_agent.velocity.normalized.magnitude > 0.01f)
+        {
+            _direction = _agent.velocity.normalized;
 
-        int xDirection = Mathf.RoundToInt(_direction.x);
-        int yDirection = Mathf.RoundToInt(_direction.y);
-
-        if (xDirection == 0 && yDirection == 1)
-            SetDirection(Vector2.up, spriteRendererUp);
-        else if (xDirection == 0 && yDirection == -1)
-            SetDirection(Vector2.down, spriteRendererDown);
-        else if (xDirection == -1 && yDirection == 0)
-            SetDirection(Vector2.left, spriteRendererLeft);
-        else if (xDirection == 1 && yDirection == 0)
-            SetDirection(Vector2.right, spriteRendererRight);
+            if (Mathf.Abs(_direction.x) > Mathf.Abs(_direction.y))
+            {
+                SetDirection(_direction.x > 0 ? Vector2.right : Vector2.left, _direction.x > 0 ? spriteRendererRight : spriteRendererLeft);
+            }
+            else
+            {
+                SetDirection(_direction.y > 0 ? Vector2.up : Vector2.down, _direction.y > 0 ? spriteRendererUp : spriteRendererDown);
+            }
+        }
         else
+        {
             SetDirection(Vector2.zero, activeSpriteRenderer);
-    }
-
-    private void FixedUpdate()
-    {
-        Vector2 position = _rigibody.position;
-        Vector2 translation = _direction * speed * Time.fixedDeltaTime;
-
-        _rigibody.MovePosition(position + translation);
+        }
     }
 
     private void SetDirection(Vector2 newDirection, AnimatedSpriteRenderer spriteRenderer)
@@ -61,7 +55,7 @@ public class MovementController : MonoBehaviour
         spriteRendererDown.enabled = spriteRenderer == spriteRendererDown;
         spriteRendererLeft.enabled = spriteRenderer == spriteRendererLeft;
         spriteRendererRight.enabled = spriteRenderer == spriteRendererRight;
-    
+
         activeSpriteRenderer = spriteRenderer;
         activeSpriteRenderer.idle = _direction == Vector2.zero;
     }
@@ -76,8 +70,7 @@ public class MovementController : MonoBehaviour
 
     private void DeathSequence()
     {
-        enabled = false;
-        GetComponent<BombController>().enabled = false;
+        _agent.enabled = false;
 
         spriteRendererUp.enabled = false;
         spriteRendererDown.enabled = false;
@@ -91,6 +84,6 @@ public class MovementController : MonoBehaviour
     private void OnDeathSequenceEnded()
     {
         gameObject.SetActive(false);
-        FindObjectOfType<GameManager>().CheckWinState();
     }
+
 }
