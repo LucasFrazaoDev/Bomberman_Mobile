@@ -5,20 +5,19 @@ using UnityEngine.AI;
 
 public class AIMovementController : MonoBehaviour
 {
-    private Vector2 _direction = Vector2.down;
-
     [Header("Sprites Scripts")]
-    public AnimatedSpriteRenderer spriteRendererUp;
-    public AnimatedSpriteRenderer spriteRendererDown;
-    public AnimatedSpriteRenderer spriteRendererLeft;
-    public AnimatedSpriteRenderer spriteRendererRight;
-    public AnimatedSpriteRenderer spriteRendererDeath;
-
-    private AnimatedSpriteRenderer activeSpriteRenderer;
+    [SerializeField] private AnimatedSpriteRenderer spriteRendererUp;
+    [SerializeField] private AnimatedSpriteRenderer spriteRendererDown;
+    [SerializeField] private AnimatedSpriteRenderer spriteRendererLeft;
+    [SerializeField] private AnimatedSpriteRenderer spriteRendererRight;
+    [SerializeField] private AnimatedSpriteRenderer spriteRendererDeath;
 
     [Header("Navmesh Agent")]
-    [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private float _speed = 5f;
+    private NavMeshAgent _agent;
+
+    private Vector2 _direction = Vector2.down;
+    private AnimatedSpriteRenderer activeSpriteRenderer;
 
     private void Awake()
     {
